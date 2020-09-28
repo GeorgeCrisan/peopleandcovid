@@ -21,5 +21,11 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "public/*",
+    "node_modules",
+    "src/**/*.{test,spec}.{ts,tsx}",
+    "src/**/__tests__/*"
   ]
 }
