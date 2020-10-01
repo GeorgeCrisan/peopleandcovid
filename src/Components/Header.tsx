@@ -9,8 +9,23 @@ import Button from '@material-ui/core/Button';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import './Header.css';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles({
+  button: {
+    background: "rgba(20,20,20,0.4)",
+    border: "2px solid rgba(3, 168, 124, 1)",
+    borderRadius: 5,
+    marginBottom: 16,
+    color: 'rgba(3, 168, 124, 1)',
+    height: 48,
+    padding: '0 30px',
+  },
+});
 
 function Header() {
+  const classes = useStyles();
   return(
     <div className={cx(headerStyle)}>
         <div className={menu}>
@@ -38,9 +53,9 @@ function Header() {
         </Slider>
       </CarouselProvider>
       <div className={shareStoryButton}>
-          <div className={css`background-color: rgba(0,0,0, 0.5); padding: 12px; `}>
-              <Button variant="outlined" size="large" color="secondary"> Share your story</Button>
-          </div>
+
+              <Button variant="outlined" size="large" className={classes.button}> Share your story</Button>
+
         </div>
     </div>
   );
@@ -124,15 +139,3 @@ const shareStoryButton = css`
   flex-flow: row;
   top: -60px;
 `;
-
-const stylesButton = {
-  root: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    borderRadius: 3,
-    border: 0,
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  },
-};
