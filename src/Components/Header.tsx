@@ -2,30 +2,16 @@ import React from 'react';
 import { cx, css } from 'emotion';
 import {Link} from 'react-router-dom';
 import bannerImage from '../images/header-pr.jpg';
+import ButtonCustom from './ButtonCustom';
 import EmojiPeopleOutlinedIcon from '@material-ui/icons/EmojiPeopleOutlined';
 import ImportContactsOutlinedIcon from '@material-ui/icons/ImportContactsOutlined';
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
-import Button from '@material-ui/core/Button';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import './Header.css';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-
-const useStyles = makeStyles({
-  button: {
-    background: "rgba(20,20,20,0.4)",
-    border: "2px solid rgba(3, 168, 124, 1)",
-    borderRadius: 5,
-    marginBottom: 16,
-    color: 'rgba(3, 168, 124, 1)',
-    height: 48,
-    padding: '0 30px',
-  },
-});
 
 function Header() {
-  const classes = useStyles();
+
   return(
     <div className={cx(headerStyle)}>
         <div className={menu}>
@@ -41,7 +27,7 @@ function Header() {
         naturalSlideHeight={125}
         totalSlides={3}
         isPlaying={true}
-        interval={6000}
+        interval={4000}
         isIntrinsicHeight={true}
         infinite={true}
         className={css`position: relative; z-index: 5; height: 260px;`}
@@ -54,7 +40,7 @@ function Header() {
       </CarouselProvider>
       <div className={shareStoryButton}>
 
-              <Button variant="outlined" size="large" className={classes.button}> Share your story</Button>
+              <ButtonCustom onClick={()=>{console.log('hi');}} variant='outlined' size='large' color='default' > Share your story </ButtonCustom>
 
         </div>
     </div>
@@ -110,11 +96,11 @@ const menu = css`
 
 const slides = css`
   width: 100%;
-  max-height: 300px;
+  max-height: 280px;
   margin: auto;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 40px;
+  font-size: 38px;
   display: flex;
   flex-flow: row nowrap;
   position: relative;

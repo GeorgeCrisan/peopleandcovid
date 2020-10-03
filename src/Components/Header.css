@@ -3,12 +3,12 @@
   opacity: 1;
   transition: opacity 2s ease;
   -webkit-transition:opacity 2s ease;
-  max-height: 260px !important;
+  max-height: 280px !important;
 }
 
 .i-be-hidden {
   opacity: 0;
-  max-height: 260px !important;
+  max-height: 280px !important;
   transition: opacity 2s ease;
   -webkit-transition: opacity 2s ease;
 }

@@ -1,14 +1,49 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-
+import ButtonCustom from '../ButtonCustom';
+import {css, cx} from 'emotion';
 
 function IndexPage() {
   return (
-    <>
-      <Link to="/"> See what people have to say </Link>
-      <Link to="/about"> About people and covid </Link>
-    </>
+    <div className={wrapper}>
+      <h1 style={{margin: 'auto', padding: "64px 32px 0 32px", fontFamily: 'Josefin Sans, sans-serif'}} > Nothing here, you may want to select one of the options below. </h1>
+      <div className={buttonsWrp}>
+        <Link style={{textDecoration: 'none'}} to="/">
+          <ButtonCustom onClick={()=>{console.log('hi1');}} variant='outlined' size='large' color='blue' >
+            See what people have to say   
+          </ButtonCustom> 
+        </Link>
+        <Link style={{textDecoration: 'none'}} to="/about">
+          <ButtonCustom onClick={()=>{console.log('hi2');}} variant='outlined' size='large' color='blue' > 
+          About people and covid
+          </ButtonCustom>
+        </Link>
+      </div>
+    </div>
   );
 }
 
 export default IndexPage;
+
+
+const wrapper = css`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  color: teal;
+  margin: auto;
+`;
+
+const buttonsWrp = css`
+  display: flex;
+  padding: 32px;
+  flex-flow: column;
+  justify-content: center;
+ 
+  @media (min-width: 520px) {
+    flex-flow: row nowrap;
+    width: 50%;
+    margin: auto;
+    justify-content: space-between;
+  } 
+`;
