@@ -1,8 +1,7 @@
 import React from 'react';
 import StoriesList from './StoriesList';
 
-function IndexPage() {
-
+const IndexPage: React.FC = () => {
 
   return (
     <>

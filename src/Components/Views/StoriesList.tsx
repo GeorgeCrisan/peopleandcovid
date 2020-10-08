@@ -1,39 +1,47 @@
 import React, {useState, useEffect  } from 'react';
 import {db} from '../../firebaseinit';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import {css} from 'emotion';
 
-type PropsType = {
-  children?: any;
-};
+//Components
+import CircularProgress from '@material-ui/core/CircularProgress';
+import StoryCard from '../StoryCard';
 
-type Story  = {
+
+export type Story = {
   id: string,
-  data: object
+  data: {
+    title?: string,
+    name?: string,
+    storytext?: string,
+    createdat?: {seconds: number, nanoseconds: number},
+    gender?: 'male' | 'female' | 'unknown',
+    status?: 'approved' | 'draft' | 'denied',
+  } 
 };
-
-function StoriesList(props: PropsType) {
+ 
+function StoriesList() {
 
   const [data, setData] = useState<Story[]>([]);
-  const [loading,setLoading] = useState(false);
+  const [loading,setLoading] = useState(true);
 
   useEffect(()=>{
     db.collection('stories').get().then((data)=>{
-      setLoading(false);
       if(!data.empty) {
         let dataSet: Story[] = []; 
 
         data.forEach((el)=>{
-           dataSet.push({id: el.id, data: el.data() });
+            dataSet.push({id: el.id, data: el.data() });
           });
-          console.log(dataSet);
-          setData(dataSet);
+
+          setLoading(() => false);
+          setData(() => dataSet);
+          
       }
       
     }).catch((e)=>{
       setLoading(false);
     })
-  },[props])
+  },[])
 
 
   if(loading) {
@@ -41,9 +49,14 @@ function StoriesList(props: PropsType) {
       <CircularProgress style={{color: 'rgba(3, 168, 124, 1)'}} size={100} color='secondary' />
       <h3 style={{color: '#333', marginLeft: 16, padding: 32, fontSize: 16, fontFamily: "'Josefin Sans', sans-serif"}} > Loading... Fetching stories for you. </h3>
    </div>);
+  } else {
+    let stories = data.map((el, i )=> <StoryCard story={el} key={i} />);
+    if(stories.length > 0) {
+      return (<div className={dataContainer} > {stories} </div>)
+    } else {
+      return (<div className={dataContainer}> No Stories </div>);
+    }
   }
-
-  return (<div className={dataContainer}> Data {data.length} </div>);
 } 
 
 export default StoriesList;
@@ -61,6 +74,7 @@ const storiesStyle = css`
 const dataContainer = css`
    max-width: 800px;
    display: flex;
+   flex-flow: column nowrap;
    margin: auto;
    padding: 16px;
 `;

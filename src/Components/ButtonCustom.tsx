@@ -15,12 +15,15 @@ const useStyles = makeStyles<any>({
     textDecoration: 'none'
   },
   blue: {
-    background: "rgba(0, 100,200,0.1)",
     border: "2px solid #004080",
-    color: "black",
-    minWidth: "300px",
-    fontFamily: 'Fira Sans, sans-serif',
-    textTransform: 'capitalize'
+    background: '#004080',
+    color: 'white',
+    minWidth: "240px",
+    textTransform: 'capitalize',
+    "&:hover, &:focus": {
+      background: "rgba(0, 100,200,0.2)",
+      color: '#004080'
+    }
   }
 });
 
