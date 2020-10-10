@@ -4,6 +4,7 @@ import IndexView from './Components/Views/IndexView';
 import AboutView from './Components/Views/AboutView';
 import AreYouLost from './Components/Views/AreYouLost';
 import Header from './Components/Header';
+import Footer from './Components/Footer';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
            <Route exact path='/about' component={AboutView} />
            <Route path='*' component={AreYouLost} />
         </Switch>
+        <Footer />
     </>
   );
 }

@@ -39,7 +39,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1200,
     background: grey[50],
-    margin: "16px 0 16px 0"
+    margin: "16px 0 16px 0",
+    "&:hover": {
+      transform: "scale(1.05)",
+      transition: "all 0.5s ease-in-out",
+      cursor: 'pointer'
+    }
   },
   media: {
     height: 0,
@@ -95,7 +100,11 @@ const StoryBox: React.FC<Props> = ({ story }) => {
             moment().format('Do MMMM YYYY')
         }
         action={<div style={{ color: grey[700], marginTop: 12 }}>
-          <LocationOnIcon style={{ position: 'relative', top: 6 }} /> <span className={storyHeader}>{`United Kingdom, Norwich`}</span>
+         {(story.data.country || story.data.city) &&
+          <>
+            <LocationOnIcon style={{ position: 'relative', top: 6 }} />
+            <span className={storyHeader}>{`${story.data.country}, ${story.data.city}`}</span>
+          </>}
         </div>}
       />
       <CardContent style={{ marginTop: 0 }} >

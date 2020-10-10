@@ -16,6 +16,8 @@ export type Story = {
     createdat?: {seconds: number, nanoseconds: number},
     gender?: 'male' | 'female' | 'unknown',
     status?: 'approved' | 'draft' | 'denied',
+    city?: string,
+    country?: string
   } 
 };
  
