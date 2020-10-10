@@ -33,13 +33,13 @@ type CustomBProps = {
   size: string,
   variant: string,
   color: string,
-  onClick: () => void
+  onClick: (event:React.MouseEvent) => void
 };
 
 function CustomButton(props: CustomBProps) {
   const classes = useStyles();
   return (
-    <Button onClick={props.onClick} variant="outlined" size="large" className={clsx(classes.button, classes[props.color] ?? null )}> {props.children} </Button>
+    <Button onClick={(event) => { props.onClick(event)}} variant="outlined" size="large" className={clsx(classes.button, classes[props.color] ?? null )}> {props.children} </Button>
   );
 }
 

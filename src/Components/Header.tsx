@@ -40,9 +40,10 @@ function Header() {
       </CarouselProvider>
       <div className={shareStoryButton}>
 
-              <ButtonCustom onClick={()=>{console.log('hi');}} variant='outlined' size='large' color='default' > Share your story </ButtonCustom>
-
-        </div>
+        <Link style={{textDecoration: 'none'}} to='/createstory'>
+          <ButtonCustom onClick={(event)=> null } variant='outlined' size='large' color='default' > Share your story </ButtonCustom>
+        </Link>
+      </div>
     </div>
   );
 }

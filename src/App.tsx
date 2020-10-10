@@ -5,6 +5,7 @@ import AboutView from './Components/Views/AboutView';
 import AreYouLost from './Components/Views/AreYouLost';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import ShareYourStory from './Components/Modals/ShareYourStory';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Switch>
            <Route exact path='/' component={IndexView} />
            <Route exact path='/about' component={AboutView} />
+           <Route exact path='/createstory' component={ShareYourStory} />
            <Route path='*' component={AreYouLost} />
         </Switch>
         <Footer />
