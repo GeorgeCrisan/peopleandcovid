@@ -88,8 +88,8 @@ const StoryBox: React.FC<Props> = ({ story }) => {
       <CardHeader
         style={{ marginBottom: 0, paddingBottom: 0, display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}
         avatar={
-          <Avatar style={{fontFamily: '"Fira Sans", sans-serif'}} aria-label="recipe" className={story.data.gender === 'unknown' ? classes.avatarAny : story.data.gender === 'male' ? classes.avatarMale : classes.avatarFemale}>
-            {story.data.gender === 'unknown' ? 'O' : story.data.gender === 'male' ? 'M' : 'F'}
+          <Avatar style={{fontFamily: '"Fira Sans", sans-serif'}} aria-label="recipe" className={story.data.gender === 'other' ? classes.avatarAny : story.data.gender === 'male' ? classes.avatarMale : classes.avatarFemale}>
+            {story.data.gender === 'other' ? 'O' : story.data.gender === 'male' ? 'M' : 'F'}
           </Avatar>
         }
         title={<h3 className={storyHeader2} >{`Story by ${story.data.name}`}</h3>}
@@ -101,10 +101,16 @@ const StoryBox: React.FC<Props> = ({ story }) => {
         }
         action={<div style={{ color: grey[700], marginTop: 12 }}>
          {(story.data.country || story.data.city) &&
-          <>
-            <LocationOnIcon style={{ position: 'relative', top: 6 }} />
-            <span className={storyHeader}>{`${story.data.country}, ${story.data.city}`}</span>
-          </>}
+          <div className={locationDesk}>
+            <div className={location}>
+              <p  style={{fontSize: 14}}>
+                <LocationOnIcon style={{ fontSize: 16, position: 'relative', top: 4 }} />{`${story.data.country}, ${story.data.city}`}
+              </p>
+
+            </div>
+            <p className={location} style={{fontSize: 10, marginTop: 8}} > Story ID: {story.id} </p>
+            
+          </div>}
         </div>}
       />
       <CardContent style={{ marginTop: 0 }} >
@@ -156,12 +162,37 @@ const storyHeader = css`
     text-align: left;
 `;
 
+const location = css`
+    text-align: right;
+    width: 300px;
+    font-family: 'Fira Sans', sans-serif;
+    color: #344;
+    padding: 0;
+    p {
+      text-align: right;
+      font-family: 'Fira Sans', sans-serif;
+      color: #344;
+      padding: 0;
+      margin: 0;
+    }
+`;
+
 const storyHeader2 = css`
     font-family: 'Fira Sans', sans-serif;
     color: #444;
     font-size: 16px;
     padding-right: 16px;
     margin: 0 0px;
+`;
+
+const locationDesk = css`
+  display: none;
+  @media (min-width: 540px) {
+    display: flex;
+    flex-flow: column;
+    padding-right: 16px;
+  }
+  
 `;
 
 export default StoryBox;

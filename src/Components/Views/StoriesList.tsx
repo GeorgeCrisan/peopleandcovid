@@ -14,7 +14,7 @@ export type Story = {
     name?: string,
     storytext?: string,
     createdat?: {seconds: number, nanoseconds: number},
-    gender?: 'male' | 'female' | 'unknown',
+    gender?: 'male' | 'female' | 'other',
     status?: 'approved' | 'draft' | 'denied',
     city?: string,
     country?: string
