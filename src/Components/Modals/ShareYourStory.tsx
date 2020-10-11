@@ -41,11 +41,11 @@ function ShareYourStory() {
         </div>
       </div>
       <Paper variant='outlined' className={formWrapper}>
-        <FormControl style={{padding: 16, width: "100%", boxSizing: 'border-box'}}   variant="outlined">
+        <FormControl style={{padding: "32px 16px 16px 16px", width: "100%", boxSizing: 'border-box'}}   variant="outlined">
           <TextField  id="outlined-basic" value={formState.title} label="Story Title" variant="outlined" />
         </FormControl>
 
-        <FormControl style={{padding: 16, width: "100%", boxSizing: 'border-box'}} variant="outlined">
+        <FormControl style={{padding: "16px 16px 0 16px" , width: "100%", boxSizing: 'border-box'}} variant="outlined">
           <TextField
             id="outlined-multiline-static"
             label="Your Story"
@@ -57,7 +57,7 @@ function ShareYourStory() {
         </FormControl>
         
         <div className={formFooter}>
-          <TextField style={{ boxSizing: 'border-box', marginTop: 16}} id="outlined-basic" label="Name (optional)" variant="outlined" />
+          <TextField className={formField} style={{ boxSizing: 'border-box', marginTop: 16}} id="outlined-basic" label="Name (optional)" variant="outlined" />
           <FormControl style={{ minWidth: 200, marginTop: 16 }}   variant="outlined">
             <InputLabel id="demo-simple-select-outlined-label">Sex</InputLabel>
             <Select
@@ -72,9 +72,13 @@ function ShareYourStory() {
             <MenuItem value={'other'}>Other</MenuItem>
             </Select>
           </FormControl>
-          <FormControl style={{padding: "0 16 0 0", marginTop: 16 }}   variant="outlined">
+        </div>
+        <div className={formFooter} >
+        <FormControl  className={formField} style={{padding: "0 16 0 0", marginTop: 16}}   variant="outlined">
             <TextField id="outlined-basic" value={formState.country} label="Country (Optional)" variant="outlined" />
-            <TextField style={{marginTop: 16}} id="outlined-basic" value={formState.city} label="City (Optional)" variant="outlined" />
+          </FormControl>
+          <FormControl  className={formField} style={{padding: "0 16 0 0", marginTop: 16 }}   variant="outlined">
+            <TextField id="outlined-basic" value={formState.city} label="City (Optional)" variant="outlined" />
           </FormControl>
         </div>
       <div className={formButtons}>
@@ -148,12 +152,19 @@ const formFooter = css`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   box-sizing: border-box;
   flex-flow: column;
   @media (min-width: 540px) {
     flex-flow: row nowrap;
   }
+`;
+
+const formField = css`
+width: 100%;
+@media (min-width: 540px) {
+  width: 45%;
+}
 `;
 
 const formButtons = css`
