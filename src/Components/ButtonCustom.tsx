@@ -5,8 +5,8 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles<any>({
   button: {
-    background: "rgba(20,20,20,0.4)",
-    border: "2px solid rgba(3, 168, 124, 1)",
+    background: "rgba(3, 168, 124, 0.1)",
+    border: "1px solid rgba(3, 168, 124, 1)",
     borderRadius: 5,
     marginBottom: 16,
     color: 'rgba(3, 168, 124, 1)',
@@ -21,7 +21,7 @@ const useStyles = makeStyles<any>({
     minWidth: "240px",
     textTransform: 'capitalize',
     "&:hover, &:focus": {
-      background: "rgba(0, 100,200,0.2)",
+      background: "rgba(3, 168, 124, 0.4)",
       color: '#004080'
     }
   }
