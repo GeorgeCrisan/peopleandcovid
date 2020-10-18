@@ -8,7 +8,7 @@ const useStyles = makeStyles<any>({
     background: "rgba(3, 168, 124, 0.1)",
     border: "1px solid rgba(3, 168, 124, 1)",
     borderRadius: 5,
-    marginBottom: 16,
+    marginBottom: 0,
     color: 'rgba(3, 168, 124, 1)',
     height: 48,
     padding: '0 30px',
@@ -28,18 +28,19 @@ const useStyles = makeStyles<any>({
 });
 
 
-type CustomBProps = {
-  children: string,
-  size: string,
-  variant: string,
+interface CustomBProps {
+  children: string;
+  size: string;
+  variant: string;
   color: string,
+  disabled?: boolean;
   onClick: (event:React.MouseEvent) => void
 };
 
-function CustomButton(props: CustomBProps) {
+const CustomButton: React.FC<CustomBProps> = ({disabled, onClick, color, variant, children}) => {
   const classes = useStyles();
   return (
-    <Button onClick={(event) => { props.onClick(event)}} variant="outlined" size="large" className={clsx(classes.button, classes[props.color] ?? null )}> {props.children} </Button>
+    <Button disabled={disabled} onClick={(event) => {onClick(event)}} variant="outlined" size="large" className={clsx(classes.button, classes[color] ?? null )}> {children} </Button>
   );
 }
 

@@ -40,7 +40,7 @@ function Header() {
       </CarouselProvider>
       <div className={shareStoryButton}>
 
-        <Link style={{textDecoration: 'none'}} to='/createstory'>
+        <Link style={{textDecoration: 'none', background: 'rgba(40, 40, 40, 0.7)'}} to='/createstory'>
           <ButtonCustom onClick={(event)=> null } variant='outlined' size='large' color='default' > Share your story </ButtonCustom>
         </Link>
       </div>

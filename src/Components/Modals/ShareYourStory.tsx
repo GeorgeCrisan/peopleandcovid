@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, TextField, MenuItem, Button, Paper, CircularProgress } from '@material-ui/core';
 import { css, cx } from "emotion";
+import { Link } from "react-router-dom";
 import formImage from '../../images/story-form.jpg';
 import formImage2 from '../../images/story-form2.jpg';
 import ButtonCustom from '../ButtonCustom';
 import { db } from '../../firebaseinit';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface FormState {
   name: string;
@@ -27,15 +30,26 @@ interface PropsCM {
   withError: boolean;
 };
 
-function ConfirmModal({withError}:PropsCM) {
+function ConfirmView({withError}:PropsCM) {
    if(withError) {
     return (<div className={loadingContainer}> I am sorry, something went wrong. Please try again later. </div>);
    }
-  return (<div className={loadingContainer}> Thank you, your story has been published! Button to go home now. </div>);
+  return (<div className={successView}>
+      <div className={confirmImage}>
+        <CheckCircleOutlineIcon />
+      </div>
+        <p> Thank you, your story has been sent to the moderator and soon will be published! </p>
+        <Link style={{textDecoration: 'none'}} to='/'>
+          <ButtonCustom onClick={(event)=> null } variant='outlined' size='large' color='default' > Go to stories. </ButtonCustom>
+        </Link>
+    </div>);
 }
 
 function ShareYourStory() {
   const [cs, setCs] = useState<CurrentState>({ sent: false, loading: false, error: false });
+
+  const [capVal, setCapval] = useState<number | null | string>(0);
+
   const [formState, setFormState] = useState<FormState>({
     name: '',
     gender: 'other',
@@ -46,6 +60,10 @@ function ShareYourStory() {
     status: 'draft',
     createdat: null
   });
+
+  function onChangeCaptcha(value: null | string | number) {
+    setCapval(value);
+  }
 
   function completeEmptyFields(story: FormState): FormState {
     let storyClone = {...story};
@@ -71,10 +89,12 @@ function ShareYourStory() {
 
   async function shareStoryRequest() {
     let story:FormState = formState;
+    
     if (story.storytext?.length < 20) {
       setCs(() =>{ return {sent: false, loading: false, error: 'Your story is too short.' }; });
       return false;
     }
+    
 
     setCs(() =>{ return {sent: false, loading: true, error: false }; });
     
@@ -113,9 +133,9 @@ function ShareYourStory() {
   }
 
   if(cs.sent && !cs.error) {
-    return(<ConfirmModal withError={false} />);
+    return(<ConfirmView withError={false} />);
   } else if (cs.sent && cs.error) {
-    return(<ConfirmModal withError={true} />);
+    return(<ConfirmView withError={true} />);
   }
 
   
@@ -197,9 +217,15 @@ function ShareYourStory() {
             <TextField onChange={(e) => { onChangeState('city', e.target.value); }} id="outlined-basic" value={formState.city} label="City (Optional)" variant="outlined" />
           </FormControl>
         </div>
+        <div style={{ padding: 16, paddingBottom: 0, marginTop: 16, display: "flex" , justifyContent: 'center'}}>
+          <ReCAPTCHA
+            sitekey="6LdmwtgZAAAAAG-MzaAncMJSdyy_msfCeAzj1EUC"
+            onChange={onChangeCaptcha}
+          />
+        </div>
         <div className={formButtons}>
           <Button style={{ height: 46, marginBottom: 16, minWidth: 200 }} color='secondary' variant='outlined'> Cancel </Button>
-          <ButtonCustom onClick={shareStoryRequest} variant='outlined' size='large' color='default' >
+          <ButtonCustom disabled={!capVal} onClick={shareStoryRequest} variant='outlined' size='large' color='default' >
             {cs.error ? cs.error : "Submit your story"} 
           </ButtonCustom>
         </div>
@@ -327,4 +353,29 @@ const loadingContainer = css`
   display: flex;
   justify-content: center;
   min-heigh: 400px;
+`;
+
+const successView = css`
+  width: 100%;
+  margin: 60px auto;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  text-align: center;
+  
+  p {
+    font-size: 20px;
+    color: #444;
+  }
+`;
+
+const confirmImage = css`
+    margin: auto;
+    align-self: center;
+    
+    color: green;
+    svg {
+      height: 8em !important;
+      width: 8em !important;
+    }
 `;
