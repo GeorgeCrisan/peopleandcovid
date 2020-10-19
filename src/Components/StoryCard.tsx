@@ -141,9 +141,9 @@ const StoryBox: React.FC<Props> = ({ story }) => {
         <CardContent>
           <ThemeProvider theme={theme}>
             <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='secondary' >
+              { false && <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='secondary' >
                 <span style={{color: '#fff'}} >Donate</span>
-            </Button>
+            </Button>}
               <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='primary' >
               <span style={{color: '#fff'}} >Read full story</span>
             </Button>
