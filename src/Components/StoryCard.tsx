@@ -20,6 +20,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { Button } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+import { Link } from 'react-router-dom';
 
 const theme = createMuiTheme({
   palette: {
@@ -84,74 +85,78 @@ const StoryBox: React.FC<Props> = ({ story }) => {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        style={{ marginBottom: 0, paddingBottom: 0, display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}
-        avatar={
-          <Avatar style={{fontFamily: '"Fira Sans", sans-serif'}} aria-label="recipe" className={story.data.gender === 'other' ? classes.avatarAny : story.data.gender === 'male' ? classes.avatarMale : classes.avatarFemale}>
-            {story.data.gender === 'other' ? 'O' : story.data.gender === 'male' ? 'M' : 'F'}
-          </Avatar>
-        }
-        title={<h3 className={storyHeader2} >{`Story by ${story.data.name}`}</h3>}
-        subheader={
-          story.data.createdat?.seconds ?
-            moment(new Date(story.data.createdat.seconds * 1000)).format('Do MMMM YYYY')
-            :
-            moment().format('Do MMMM YYYY')
-        }
-        action={<div style={{ color: grey[700], marginTop: 12 }}>
-         {(story.data.country || story.data.city) &&
-          <div className={locationDesk}>
-            <div className={location}>
-              <p  style={{fontSize: 14}}>
-                <LocationOnIcon style={{ fontSize: 16, position: 'relative', top: 4 }} />{`${story.data.country}, ${story.data.city}`}
-              </p>
+    <Link style={{ textDecoration: 'none' }} to={`./story/${story.id}`}>
+      <Card className={classes.root}>
+        <CardHeader
+          style={{ marginBottom: 0, paddingBottom: 0, display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}
+          avatar={
+            <Avatar style={{ fontFamily: '"Fira Sans", sans-serif' }} aria-label="recipe" className={story.data.gender === 'other' ? classes.avatarAny : story.data.gender === 'male' ? classes.avatarMale : classes.avatarFemale}>
+              {story.data.gender === 'other' ? 'O' : story.data.gender === 'male' ? 'M' : 'F'}
+            </Avatar>
+          }
+          title={<h3 className={storyHeader2} >{`Story by ${story.data.name}`}</h3>}
+          subheader={
+            story.data.createdat?.seconds ?
+              moment(new Date(story.data.createdat.seconds * 1000)).format('Do MMMM YYYY')
+              :
+              moment().format('Do MMMM YYYY')
+          }
+          action={<div style={{ color: grey[700], marginTop: 12 }}>
+            {(story.data.country || story.data.city) &&
+              <div className={locationDesk}>
+                <div className={location}>
+                  <p style={{ fontSize: 14 }}>
+                    <LocationOnIcon style={{ fontSize: 16, position: 'relative', top: 4 }} />{`${story.data.country}, ${story.data.city}`}
+                  </p>
 
-            </div>
-            <p className={location} style={{fontSize: 10, marginTop: 8}} > Story ID: {story.id} </p>
-            
+                </div>
+                <p className={location} style={{ fontSize: 10, marginTop: 8 }} > Story ID: {story.id} </p>
+
+              </div>}
           </div>}
-        </div>}
-      />
-      <CardContent style={{ marginTop: 0 }} >
-        <h2 className={storyHeader}> {story.data.title} </h2>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {story.data.storytext}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon style={{ color: "rgba(3, 168, 124, 1)" }} />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <ThemeProvider theme={theme}>
-            <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-              { false && <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='secondary' >
-                <span style={{color: '#fff'}} >Donate</span>
-            </Button>}
-              <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='primary' >
-              <span style={{color: '#fff'}} >Read full story</span>
-            </Button>
-            </div>
-          </ThemeProvider>
+        />
+        <CardContent style={{ marginTop: 0 }} >
+          <h2 className={storyHeader}> {story.data.title} </h2>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {story.data.storytext}
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon style={{ color: "rgba(3, 168, 124, 1)" }} />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <ThemeProvider theme={theme}>
+              <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+                {false && <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='secondary' >
+                  <span style={{ color: '#fff' }} >Donate</span>
+                </Button>}
+                <Link style={{ textDecoration: 'none' }} to={`./story/${story.id}`}>
+                  <Button style={{ marginLeft: "auto" }} size='small' variant="contained" color='primary' >
+                    <span style={{ color: '#fff' }} >Read full story</span>
+                  </Button>
+                </Link>
+              </div>
+            </ThemeProvider>
+          </CardContent>
+        </Collapse>
+      </Card>
+    </Link>
   );
 }
 

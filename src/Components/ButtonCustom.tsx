@@ -5,14 +5,20 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles<any>({
   button: {
-    background: "rgba(3, 168, 124, 0.1)",
+    background: "rgba(3, 18, 14, 0.05)",
     border: "1px solid rgba(3, 168, 124, 1)",
-    borderRadius: 5,
+    borderRadius: 0,
     marginBottom: 0,
     color: 'rgba(3, 168, 124, 1)',
     height: 48,
+    fontFamily: '"Fira Sans", sans-serif',
     padding: '0 30px',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    width: 300,
+    "&:hover, &:focus": {
+      border: "5px solid rgba(3, 168, 124, 1)",
+      fontWeight: "bold"
+    }
   },
   blue: {
     border: "2px solid #004080",
@@ -21,7 +27,6 @@ const useStyles = makeStyles<any>({
     minWidth: "240px",
     textTransform: 'capitalize',
     "&:hover, &:focus": {
-      background: "rgba(3, 168, 124, 0.4)",
       color: '#004080'
     }
   }
