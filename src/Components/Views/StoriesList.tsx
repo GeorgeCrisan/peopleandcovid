@@ -94,15 +94,13 @@ function StoriesList() {
             setTimeout(() => {
               setData((prevData) => [...prevData, ...dataSet]);
               setLoading(() => false);
-            }, 2000);
+            }, 1000);
 
 
           } else {
-
-            setNoMore(true);
-
             setTimeout(() => {
               setLoading(() => false);
+              setNoMore(true);
             }, 1000);
           }
 
