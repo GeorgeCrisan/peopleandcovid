@@ -233,6 +233,7 @@ const entypoFacebook = css`
     align-items: center;
     justify-content: center;
     text-align: center;
+    height: 30px;
     
     min-width: 100px;
     svg {
