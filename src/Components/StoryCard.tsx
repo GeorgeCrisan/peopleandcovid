@@ -21,6 +21,8 @@ import { Button } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
+import FacebookShareButton from 'react-share/lib/FacebookShareButton';
+import FacebookIcon from '@material-ui/icons/Facebook';
 
 const theme = createMuiTheme({
   palette: {
@@ -111,7 +113,7 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
         />
         <CardContent style={{ marginTop: 0 }} >
           <h2 className={ storyDetail ? storyDetailStyle : storyHeader}> {story.data.title} </h2>
-          <Typography className={clampText} variant="body2" color="textSecondary" component="p">
+          <Typography className={ !storyDetail ? clampText : 'noclass'} variant="body2" color="textSecondary" component="p">
             {story.data.storytext}
           </Typography>
         </CardContent>
@@ -140,9 +142,18 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
                 {false && <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='secondary' >
                   <span style={{ color: '#fff' }} >Donate</span>
                 </Button>}
+                
                 <Button size='small' variant="contained" color='secondary' >
-                    <span style={{ color: '#fff' }} >Report</span>
-                  </Button>
+                  <span style={{ color: '#fff' }} >Report</span>
+                </Button>
+
+                <div className={entypoFacebook}>
+                  <FacebookShareButton hashtag='#covid19' url={`https://peopleandcovid.web.app/story/${story.id}`} >
+                    <FacebookIcon />
+                    <p> Share</p>
+                  </FacebookShareButton>
+                </div>
+
                 {!storyDetail && <Link style={{ textDecoration: 'none',  marginLeft: "auto" }} to={`./story/${story.id}`}>
                   <Button size='small' variant="contained" color='primary' >
                     <span style={{ color: '#fff' }} >Read full story</span>
@@ -208,6 +219,29 @@ const locationDesk = css`
     flex-flow: column;
     padding-right: 16px;
   }
+  
+`;
+
+const entypoFacebook = css`
+  background: #2196f3;
+  color: white;
+
+  button {
+    margin: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    min-width: 100px;
+    svg {
+      margin-right: 8px;
+    }
+  }
+
+  margin-left: 16px;
+  border-radius: 5px;
   
 `;
 

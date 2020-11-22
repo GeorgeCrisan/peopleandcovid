@@ -175,7 +175,7 @@ function ShareYourStory() {
           </p>
         </div>
       </div>
-      <Paper variant='outlined' className={formWrapper}>
+      <Paper variant='outlined' className={cx(formWrapper, muiOverride)}>
         <FormControl style={{ padding: "32px 16px 16px 16px", width: "100%", boxSizing: 'border-box' }} variant="outlined">
           <TextField onChange={(e) => { onChangeState('title', e.target.value) }} id="outlined-basic" value={formState.title} label="Story Title" variant="outlined" />
         </FormControl>
@@ -245,6 +245,16 @@ function ShareYourStory() {
 }
 
 export default ShareYourStory;
+
+
+const muiOverride = css`
+  .MuiFormLabel-root.Mui-focused {
+    color: rgba(3, 168, 124, 1) !important;
+  }
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(3, 168, 124, 1) !important;
+  }
+`;
 
 const insideBanner = css`
   margin: auto;

@@ -5,7 +5,7 @@ import AboutView from './Components/Views/AboutView';
 import AreYouLost from './Components/Views/AreYouLost';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
-import ShareYourStory from './Components/Modals/ShareYourStory';
+import ShareYourStory from './Components/Forms/ShareYourStory';
 import StoryDetail from './Components/Views/StoryDetail';
 
 function App() {
