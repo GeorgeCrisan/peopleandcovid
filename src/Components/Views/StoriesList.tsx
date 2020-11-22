@@ -26,20 +26,20 @@ export type Story = {
 function StoriesList() {
 
   const [data, setData] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [noMore, setNoMore] = useState<boolean>(false);
   const [currentSnap, setCurrentSnap] = useState<any>(false);
-  const [ref, inView, entry] = useInView({
+  const [ref, inView] = useInView({
     trackVisibility: true,
-    delay: 100,
+    delay: 500,
     rootMargin: '10px 0px',
   });
 
-  console.log('entry', entry, inView);
-
   useEffect(() => {
+
     db.collection('stories')
       .orderBy('createdat', 'desc')
-      .limit(10)
+      .limit(5)
       .get().then((documentSnapshots) => {
         if (!documentSnapshots.empty) {
           let dataSet: Story[] = [];
@@ -48,17 +48,13 @@ function StoriesList() {
             dataSet.push({ id: el.id, data: el.data() });
           });
 
-          setLoading(() => false);
-          setData(() => dataSet);
+          setCurrentSnap(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
 
-          const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-
-          const next = db.collection('stories')
-            .startAfter(lastVisible)
-            .orderBy('createdat', 'desc')
-            .limit(10);
-
-          setCurrentSnap(next);
+          setTimeout(() => {
+            setData(() => dataSet);
+            setLoading(() => false);
+          }, 1000);
+          
         }
 
       }).catch((e: any) => {
@@ -66,58 +62,75 @@ function StoriesList() {
       });
   }, []);
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+
+    if (inView) {
+      paginate();
+    }
+
+  }, [inView])
 
   const paginate = () => {
+
+
     if (currentSnap) {
-      currentSnap.get().then((documentSnapshots: any) => {
+      setLoading(true);
 
-        if (!documentSnapshots.empty) {
-          let dataSet: Story[] = [];
+      db.collection('stories')
+        .orderBy('createdat', 'desc')
+        .limit(5)
+        .startAfter(currentSnap)
+        .get().then((documentSnapshots: any) => {
 
-          const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-          console.log("last", lastVisible);
+          if (!documentSnapshots.empty) {
+            let dataSet: Story[] = [];
 
-          const next = db.collection('stories')
-            .startAfter(lastVisible)
-            .orderBy('createdat', 'desc')
-            .limit(10);
+            documentSnapshots.forEach((el: any) => {
+              dataSet.push({ id: el.id, data: el.data() });
+            });
 
-          setCurrentSnap(next);
+            setCurrentSnap(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
 
-          documentSnapshots.forEach((el: any) => {
-            dataSet.push({ id: el.id, data: el.data() });
-          });
+            setTimeout(() => {
+              setData((prevData) => [...prevData, ...dataSet]);
+              setLoading(() => false);
+            }, 2000);
 
-          setLoading(() => false);
-          setData(() => dataSet);
-        }
 
-      }).catch((e: any) => {
-        setLoading(false);
-      });
-    };
+          } else {
+
+            setNoMore(true);
+
+            setTimeout(() => {
+              setLoading(() => false);
+            }, 1000);
+          }
+
+        }).catch((e: any) => {
+          setLoading(false);
+        });
+    }
   };
 
-  if (loading) {
-    return (<div className={storiesStyle}>
-      
-      <CircularProgress style={{ color: 'rgba(3, 168, 124, 1)' }} size={100} color='secondary' />
-      <h3 style={{ color: '#555', marginLeft: 16, padding: 32, fontSize: 16, fontFamily: "'Fira Sans', sans-serif" }} > Loading... Fetching stories for you. </h3>
-    </div>);
-  } else {
-    let stories = data.map((el, i) => <StoryCard story={el} key={i} />);
-    if (stories.length > 0) {
-      return (<div className={dataContainer} >
-        {stories}
-        <p className={loadMore} ref={ref} >
-          {`Scroll down to load more ...`}
-          <ExpandMoreIcon className={downIcon} /> </p>
-        </div>)
-    } else {
-      return (<div className={dataContainer}> No Stories </div>);
-    }
-  }
+  let stories = data.map((el, i) => <StoryCard  storyDetail={false} story={el} key={i} />);
+
+
+  return (
+
+    <div className={dataContainer} >
+      {stories}
+      {loading && <div className={storiesStyle}>
+
+        <CircularProgress style={{ color: 'rgba(3, 168, 124, 1)' }} size={100} color='secondary' />
+        <h3 style={{ color: '#555', marginLeft: 16, padding: 32, fontSize: 16, fontFamily: "'Fira Sans', sans-serif" }} > Loading... Fetching stories for you. </h3>
+      </div>}
+      {!noMore && <p className={loadMore} ref={ref} >
+        <ExpandMoreIcon className={downIcon} />
+          Scroll down to load more ...
+        <ExpandMoreIcon className={downIcon} /> </p> }
+    </div>
+  )
+
 }
 
 export default StoriesList;
@@ -162,14 +175,14 @@ const downIcon = css`
     height: 40px !important;
   }
   position: relative;
-  top: 12px;
+  top: 16px;
   animation: ${bounce} 1.5s linear infinite;
   left: 0;
   bottom: 0;
 `;
 
 const loadMore = css`
-  color: rgba(3, 168, 124, 1);
+  color: grey;
   font-familiy: 'Fira Sans', sans-serif; 
   margin: 50px auto;
 `;

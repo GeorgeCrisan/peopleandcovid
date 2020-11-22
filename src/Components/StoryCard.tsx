@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -9,7 +9,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { pink, orange, grey, blue, green } from '@material-ui/core/colors';
+import { pink, orange, grey, blue, green, red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -30,22 +30,16 @@ const theme = createMuiTheme({
     },
     secondary: {
       // This is green.A700 as hex.
-      main: green[400],
+      main: red[400],
     },
-  },
+  }
 });
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1200,
     background: grey[50],
     margin: "16px 0 16px 0",
-    "&:hover": {
-      transform: "scale(1.05)",
-      transition: "all 0.5s ease-in-out",
-      cursor: 'pointer'
-    }
   },
   media: {
     height: 0,
@@ -74,18 +68,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 type Props = {
-  story: Story
+  story: Story,
+  storyDetail: boolean
 };
 
-const StoryBox: React.FC<Props> = ({ story }) => {
+const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Link style={{ textDecoration: 'none' }} to={`./story/${story.id}`}>
       <Card className={classes.root}>
         <CardHeader
           style={{ marginBottom: 0, paddingBottom: 0, display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}
@@ -116,8 +110,8 @@ const StoryBox: React.FC<Props> = ({ story }) => {
           </div>}
         />
         <CardContent style={{ marginTop: 0 }} >
-          <h2 className={storyHeader}> {story.data.title} </h2>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <h2 className={ storyDetail ? storyDetailStyle : storyHeader}> {story.data.title} </h2>
+          <Typography className={clampText} variant="body2" color="textSecondary" component="p">
             {story.data.storytext}
           </Typography>
         </CardContent>
@@ -146,17 +140,19 @@ const StoryBox: React.FC<Props> = ({ story }) => {
                 {false && <Button onClick={() => { console.log('hi1'); }} size='small' variant="contained" color='secondary' >
                   <span style={{ color: '#fff' }} >Donate</span>
                 </Button>}
-                <Link style={{ textDecoration: 'none' }} to={`./story/${story.id}`}>
-                  <Button style={{ marginLeft: "auto" }} size='small' variant="contained" color='primary' >
+                <Button size='small' variant="contained" color='secondary' >
+                    <span style={{ color: '#fff' }} >Report</span>
+                  </Button>
+                {!storyDetail && <Link style={{ textDecoration: 'none',  marginLeft: "auto" }} to={`./story/${story.id}`}>
+                  <Button size='small' variant="contained" color='primary' >
                     <span style={{ color: '#fff' }} >Read full story</span>
                   </Button>
-                </Link>
+                </Link>}
               </div>
             </ThemeProvider>
           </CardContent>
         </Collapse>
       </Card>
-    </Link>
   );
 }
 
@@ -165,6 +161,14 @@ const storyHeader = css`
     color: #344;
     padding-right: 16px;
     text-align: left;
+`;
+
+const clampText = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
 `;
 
 const location = css`
@@ -188,6 +192,13 @@ const storyHeader2 = css`
     font-size: 16px;
     padding-right: 16px;
     margin: 0 0px;
+`;
+
+const storyDetailStyle = css`
+  font-family: 'Fira Sans', sans-serif;
+  color: #344;
+  padding-right: 16px;
+  text-align: center;
 `;
 
 const locationDesk = css`
