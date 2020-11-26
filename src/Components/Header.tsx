@@ -15,10 +15,10 @@ function Header() {
   return(
     <div className={cx(headerStyle)}>
         <div className={menu}>
-          <Link to='/'>
+          <Link style={{padding: 16}}  to='/'>
             <ImportContactsOutlinedIcon style={ {fontSize: 30, position: "relative", top: 6}} /> Stories
           </Link>
-          <Link to='/about'>
+          <Link style={{padding: 16}} to='/about'>
              About<EmojiPeopleOutlinedIcon style={ {fontSize: 34, position: "relative", top: 4}} /> 
           </Link>
         </div>

@@ -161,7 +161,7 @@ function ShareYourStory() {
   }
 
   return (
-    <>
+    <div className={bannerMargin}>
       <div className={cx(banner, banner2)} >
 
         <div className={insideBanner}>
@@ -230,6 +230,7 @@ function ShareYourStory() {
           </ButtonCustom>
         </div>
       </Paper>
+      <div className={bannerMargin}>
       <div className={banner} style={{ marginBottom: 16 }}>
         <p className={mainP}   >
           Sometimes it helps to know how other feel and sometimes is nice to be able to express yourself.</p>
@@ -240,7 +241,8 @@ function ShareYourStory() {
         <p className={secP} style={{ marginBottom: 16 }}  > All the stories are moderated before are being listed publicly.
         </p>
       </div>
-    </>
+      </div>
+    </div>
   );
 }
 
@@ -261,9 +263,16 @@ const insideBanner = css`
   width: 90%;
 `;
 
+const bannerMargin = css`
+  @media only screen and (max-width: 600px) {
+    margin: auto 16px;
+  }
+`;
+
 const banner = css`
   max-width: 800px;
   margin: auto;
+  align-self: center;
   height: 280px;
   padding: 16px;
   background-image: url(${formImage});
@@ -345,7 +354,7 @@ const mainP = css`
 
 const secP = css`
 color: #fff;
-padding: 16px 0 0 0;
+padding: 16px 8px 0 8px;
 margin: 0 0 0 0;
 font-size: 14px;
 text-align: center;
