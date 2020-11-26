@@ -25,6 +25,8 @@ import FacebookShareButton from 'react-share/lib/FacebookShareButton';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterShareButton from 'react-share/lib/TwitterShareButton';
 import TwitterIcon from '@material-ui/icons/Twitter';
+import Popper from '@material-ui/core/Popper';
+import Paper from '@material-ui/core/Paper';
 
 const theme = createMuiTheme({
   palette: {
@@ -39,11 +41,21 @@ const theme = createMuiTheme({
   }
 });
 
+let timeOut: any;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 1200,
     background: grey[50],
     margin: "16px 0 16px 0",
+  },
+  typography: {
+    padding: theme.spacing(2),
+  },
+  paper: {
+    border: '1px solid',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
   },
   media: {
     height: 0,
@@ -52,9 +64,13 @@ const useStyles = makeStyles((theme) => ({
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
+    '&:hover': {
+      borderRadius: 0,
+    },
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
+
   },
   expandOpen: {
     transform: 'rotate(180deg)',
@@ -78,7 +94,25 @@ type Props = {
 
 const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(true);
+  const [expanded, setExpanded] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<any>(null);
+  const [open, setOpen] = React.useState(false);
+  const [messageType, setMessageType] = React.useState<string>('one');
+
+  const handleClickPoper = (event: { currentTarget: any; }) => {
+    clearTimeout(timeOut);
+    setOpen(!open);
+
+
+    setMessageType(event.currentTarget.id);
+
+    timeOut = setTimeout(() => {
+      setOpen(false);
+    }, 2000);
+
+    setAnchorEl(event.currentTarget);
+  };
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -120,19 +154,26 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton onClick={handleClickPoper} id='one' aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
-          <TwitterShareButton style={{ width: 24, height: 24 }} title='Share your story' hashtags={['#covid19']} url={`https://peopleandcovid.web.app/story/${story.id}`}>
-            <TwitterIcon style={{ color: 'rgb(29, 161, 242)' }} />
-          </TwitterShareButton>
-        </IconButton>
-        <IconButton>
-          <FacebookShareButton style={{ width: 24, height: 24 }} hashtag='#covid19' url={`https://peopleandcovid.web.app/story/${story.id}`} >
-            <FacebookIcon style={{ color: '#4267B2' }} />
-          </FacebookShareButton>
-        </IconButton>
+        
+            <Popper style={{ marginBottom: 16 }} id={'noneid'} placement='top' open={open} anchorEl={anchorEl}>
+
+              <Paper>
+                <Typography className={classes.typography}> {messageType === 'one' ? "Comming soon." : "The story has been reported and will be reviewed by a moderator."} </Typography>
+              </Paper>
+
+            </Popper>
+
+        <TwitterShareButton style={{ width: 24, height: 24, margin: 'auto 10px' }} title='Share your story' hashtags={['#covid19']} url={`https://peopleandcovid.web.app/story/${story.id}`}>
+          <TwitterIcon style={{ color: 'rgb(29, 161, 242)' }} />
+        </TwitterShareButton>
+
+        <FacebookShareButton style={{ width: 24, height: 24, margin: 'auto 10px' }} hashtag='#covid19' url={`https://peopleandcovid.web.app/story/${story.id}`} >
+          <FacebookIcon style={{ color: '#4267B2' }} />
+        </FacebookShareButton>
+
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -141,6 +182,7 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
           aria-expanded={expanded}
           aria-label="show more"
         >
+          <span className={storyHeader2} style={{ fontSize: 14, color: '#4267B2', margin: 0, padding: 0 }} > {!expanded ? 'More' : <span className={rotate} >Less</span>} </span>
           <ExpandMoreIcon style={{ color: "rgba(3, 168, 124, 1)" }} />
         </IconButton>
       </CardActions>
@@ -152,7 +194,7 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
                 <span style={{ color: '#fff' }} >Donate</span>
               </Button>}
 
-              <Button size='small' variant="contained" color='secondary' >
+              <Button onClick={handleClickPoper} id='two' size='small' variant="contained" color='secondary' >
                 <span style={{ color: '#fff' }} >Report</span>
               </Button>
 
@@ -222,6 +264,11 @@ const locationDesk = css`
     padding-right: 16px;
   }
   
+`;
+
+const rotate = css`
+  transform: rotate(180deg);
+  display: block;
 `;
 
 export default StoryBox;

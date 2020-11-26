@@ -54,7 +54,7 @@ function StoriesList() {
             setData(() => dataSet);
             setLoading(() => false);
           }, 1000);
-          
+
         }
 
       }).catch((e: any) => {
@@ -110,7 +110,7 @@ function StoriesList() {
     }
   };
 
-  let stories = data.map((el, i) => <StoryCard  storyDetail={false} story={el} key={i} />);
+  let stories = data.map((el, i) => <StoryCard storyDetail={false} story={el} key={i} />);
 
 
   return (
@@ -122,10 +122,10 @@ function StoriesList() {
         <CircularProgress style={{ color: 'rgba(3, 168, 124, 1)' }} size={100} color='secondary' />
         <h3 style={{ color: '#555', marginLeft: 16, padding: 32, fontSize: 16, fontFamily: "'Fira Sans', sans-serif" }} > Loading... Fetching stories for you. </h3>
       </div>}
-      {!noMore && <p className={loadMore} ref={ref} >
+      {(!loading && !noMore) && <p className={loadMore} ref={ref} >
         <ExpandMoreIcon className={downIcon} />
           Scroll down to load more ...
-        <ExpandMoreIcon className={downIcon} /> </p> }
+        <ExpandMoreIcon className={downIcon} /> </p>}
     </div>
   )
 
