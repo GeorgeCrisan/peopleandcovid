@@ -15,10 +15,10 @@ function Header() {
   return(
     <div className={cx(headerStyle)}>
         <div className={menu}>
-          <Link style={{padding: 16}}  to='/'>
+          <Link to='/'>
             <ImportContactsOutlinedIcon style={ {fontSize: 30, position: "relative", top: 6}} /> Stories
           </Link>
-          <Link style={{padding: 16}} to='/about'>
+          <Link to='/about'>
              About<EmojiPeopleOutlinedIcon style={ {fontSize: 34, position: "relative", top: 4}} /> 
           </Link>
         </div>
@@ -96,17 +96,17 @@ const menu = css`
 `;
 
 const slides = css`
-  width: 100%;
+  width: 90%;
   max-height: 280px;
   margin: auto;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 38px;
+  font-size: 34px;
   display: flex;
   flex-flow: row nowrap;
   position: relative;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 30px;
   justify-content: center;
   align-items: space-around;
   z-index: 5;
