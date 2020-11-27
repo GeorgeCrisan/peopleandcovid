@@ -157,14 +157,14 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
         <IconButton onClick={handleClickPoper} id='one' aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        
-            <Popper style={{ marginBottom: 16 }} id={'noneid'} placement='top' open={open} anchorEl={anchorEl}>
 
-              <Paper>
-                <Typography className={classes.typography}> {messageType === 'one' ? "Comming soon." : "The story has been reported and will be reviewed by a moderator."} </Typography>
-              </Paper>
+        <Popper style={{ marginBottom: 16, maxWidth: 300 }} id={'noneid'} placement='top' open={open} anchorEl={anchorEl}>
 
-            </Popper>
+          <Paper>
+            <Typography className={classes.typography}> {messageType === 'one' ? "Comming soon." : "The story has been reported and will be reviewed by a moderator."} </Typography>
+          </Paper>
+
+        </Popper>
 
         <TwitterShareButton style={{ width: 24, height: 24, margin: 'auto 10px' }} title='Share your story' hashtags={['#covid19']} url={`https://peopleandcovid.web.app/story/${story.id}`}>
           <TwitterIcon style={{ color: 'rgb(29, 161, 242)' }} />
@@ -198,11 +198,19 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
                 <span style={{ color: '#fff' }} >Report</span>
               </Button>
 
-              {!storyDetail && <Link style={{ textDecoration: 'none', marginLeft: "auto" }} to={`./story/${story.id}`}>
-                <Button size='small' variant="contained" color='primary' >
-                  <span style={{ color: '#fff' }} >Read full story</span>
-                </Button>
-              </Link>}
+              {!storyDetail ?
+                <Link style={{ textDecoration: 'none', marginLeft: "auto" }} to={`./story/${story.id}`}>
+                  <Button size='small' variant="contained" color='primary' >
+                    <span style={{ color: '#fff' }} >Read full story</span>
+                  </Button>
+                </Link>
+                :
+                <Link style={{ textDecoration: 'none', marginLeft: "auto" }} to={`../`}>
+                  <Button size='small' variant="contained" color='primary' >
+                    <span style={{ color: '#fff' }} >Go To Stories</span>
+                  </Button>
+                </Link>
+              }
             </div>
           </ThemeProvider>
         </CardContent>

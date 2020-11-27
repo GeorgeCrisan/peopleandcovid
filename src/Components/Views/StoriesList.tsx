@@ -38,6 +38,7 @@ function StoriesList() {
   useEffect(() => {
 
     db.collection('stories')
+      .where('status','==','approved')
       .orderBy('createdat', 'desc')
       .limit(5)
       .get().then((documentSnapshots) => {
@@ -77,6 +78,7 @@ function StoriesList() {
       setLoading(true);
 
       db.collection('stories')
+        .where("status", "==", "approved")
         .orderBy('createdat', 'desc')
         .limit(5)
         .startAfter(currentSnap)

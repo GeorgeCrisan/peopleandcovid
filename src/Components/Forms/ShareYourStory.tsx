@@ -30,19 +30,19 @@ interface PropsCM {
   withError: boolean;
 };
 
-function ConfirmView({withError}:PropsCM) {
-   if(withError) {
+function ConfirmView({ withError }: PropsCM) {
+  if (withError) {
     return (<div className={loadingContainer}> I am sorry, something went wrong. Please try again later. </div>);
-   }
+  }
   return (<div className={successView}>
-      <div className={confirmImage}>
-        <CheckCircleOutlineIcon />
-      </div>
-        <p> Thank you, your story has been sent to the moderator and soon will be published! </p>
-        <Link style={{textDecoration: 'none'}} to='/'>
-          <ButtonCustom onClick={(event)=> null } variant='outlined' size='large' color='default' > Go to stories. </ButtonCustom>
-        </Link>
-    </div>);
+    <div className={confirmImage}>
+      <CheckCircleOutlineIcon />
+    </div>
+    <p> Thank you, your story has been sent to the moderator and soon will be published! </p>
+    <Link style={{ textDecoration: 'none' }} to='/'>
+      <ButtonCustom onClick={(event) => null} variant='outlined' size='large' color='default' > Go to stories. </ButtonCustom>
+    </Link>
+  </div>);
 }
 
 function ShareYourStory() {
@@ -66,21 +66,21 @@ function ShareYourStory() {
   }
 
   function completeEmptyFields(story: FormState): FormState {
-    let storyClone = {...story};
+    let storyClone = { ...story };
 
-    if(storyClone.title.length < 2) {
+    if (storyClone.title.length < 2) {
       storyClone.title = 'Untitled';
     }
 
-    if(storyClone.name.length < 2) {
+    if (storyClone.name.length < 2) {
       storyClone.name = 'Anonymous';
     }
 
-    if(storyClone.country.length < 2) {
+    if (storyClone.country.length < 2) {
       storyClone.country = 'Unknown';
     }
 
-    if(storyClone.city.length < 2) {
+    if (storyClone.city.length < 2) {
       storyClone.city = 'Unknown';
     }
 
@@ -88,23 +88,23 @@ function ShareYourStory() {
   }
 
   async function shareStoryRequest() {
-    let story:FormState = formState;
-    
+    let story: FormState = formState;
+
     if (story.storytext?.length < 20) {
-      setCs(() =>{ return {sent: false, loading: false, error: 'Your story is too short.' }; });
+      setCs(() => { return { sent: false, loading: false, error: 'Your story is too short.' }; });
       return false;
     }
-    
 
-    setCs(() =>{ return {sent: false, loading: true, error: false }; });
-    
+
+    setCs(() => { return { sent: false, loading: true, error: false }; });
+
     story.createdat = new Date();
     story = completeEmptyFields(story);
     try {
-       await  db.collection('stories').add(story);
-      setCs(() =>{ return {sent: true, loading: false, error: false}; });
-    } catch(e) {
-      setCs(() =>{ return {sent: true, loading: false, error: e}; });
+      await db.collection('stories').add(story);
+      setCs(() => { return { sent: true, loading: false, error: false }; });
+    } catch (e) {
+      setCs(() => { return { sent: true, loading: false, error: e }; });
     }
   }
 
@@ -112,8 +112,8 @@ function ShareYourStory() {
 
     switch (field) {
       case 'storytext':
-        if(cs.error) {
-          setCs({sent: false, error: false, loading: false});
+        if (cs.error) {
+          setCs({ sent: false, error: false, loading: false });
         }
         if (typeof value === 'string' && value.length < 8000) {
           setFormState((prevState) => {
@@ -132,13 +132,13 @@ function ShareYourStory() {
     }
   }
 
-  if(cs.sent && !cs.error) {
-    return(<ConfirmView withError={false} />);
+  if (cs.sent && !cs.error) {
+    return (<ConfirmView withError={false} />);
   } else if (cs.sent && cs.error) {
-    return(<ConfirmView withError={true} />);
+    return (<ConfirmView withError={true} />);
   }
 
-  
+
 
   if (cs.loading) {
     return (<div className={loadingContainer}>
@@ -217,7 +217,7 @@ function ShareYourStory() {
             <TextField onChange={(e) => { onChangeState('city', e.target.value); }} id="outlined-basic" value={formState.city} label="City (Optional)" variant="outlined" />
           </FormControl>
         </div>
-        <div style={{ padding: 16, paddingBottom: 0, marginTop: 16, display: "flex" , justifyContent: 'center'}}>
+        <div style={{ padding: 16, paddingBottom: 0, marginTop: 16, display: "flex", justifyContent: 'center' }}>
           <ReCAPTCHA
             sitekey="6LdmwtgZAAAAAG-MzaAncMJSdyy_msfCeAzj1EUC"
             onChange={onChangeCaptcha}
@@ -226,11 +226,10 @@ function ShareYourStory() {
         <div className={formButtons}>
           <Button style={{ height: 46, marginBottom: 16, minWidth: 200 }} color='secondary' variant='outlined'> Cancel </Button>
           <ButtonCustom disabled={!capVal} onClick={shareStoryRequest} variant='outlined' size='large' color='default' >
-            {cs.error ? cs.error : "Submit your story"} 
+            {cs.error ? cs.error : "Submit your story"}
           </ButtonCustom>
         </div>
       </Paper>
-      <div className={bannerMargin}>
       <div className={banner} style={{ marginBottom: 16 }}>
         <p className={mainP}   >
           Sometimes it helps to know how other feel and sometimes is nice to be able to express yourself.</p>
@@ -240,7 +239,6 @@ function ShareYourStory() {
         </p>
         <p className={secP} style={{ marginBottom: 16 }}  > All the stories are moderated before are being listed publicly.
         </p>
-      </div>
       </div>
     </div>
   );

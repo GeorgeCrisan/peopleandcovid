@@ -14,7 +14,7 @@ const useStyles = makeStyles<any>({
     fontFamily: '"Fira Sans", sans-serif',
     padding: '0 30px',
     textDecoration: 'none',
-    width: 278,
+    width: 'auto',
     "&:hover, &:focus": {
       border: "5px solid rgba(3, 168, 124, 1)",
       fontWeight: "bold"

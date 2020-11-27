@@ -48,7 +48,7 @@ const StoryDetail: React.FC = () => {
 
   if (story) {
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', justifyContent: 'center', margin: 'auto 16px'}}>
         <StoryCard story={story} storyDetail={true} />
       </div>
     );
