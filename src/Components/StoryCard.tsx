@@ -27,6 +27,7 @@ import TwitterShareButton from 'react-share/lib/TwitterShareButton';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Popper from '@material-ui/core/Popper';
 import Paper from '@material-ui/core/Paper';
+import { db } from '../firebaseinit';
 
 const theme = createMuiTheme({
   palette: {
@@ -99,10 +100,11 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
   const [open, setOpen] = React.useState(false);
   const [messageType, setMessageType] = React.useState<string>('one');
 
-  const handleClickPoper = (event: { currentTarget: any; }) => {
+  const handleClickPopperReport = (event: { currentTarget: any; }) => {
     clearTimeout(timeOut);
     setOpen(!open);
 
+    const storyReported = event.currentTarget.id;
 
     setMessageType(event.currentTarget.id);
 
@@ -111,6 +113,19 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
     }, 2000);
 
     setAnchorEl(event.currentTarget);
+
+    try {
+
+      db.collection('reported').where('storyid', '==', storyReported).get().then((res)=>{
+
+        if(res.empty)
+          db.collection('reported').add({storyid: storyReported});
+      });
+
+    } catch  (e){
+      console.log('Error from update reported', e);
+    }
+
   };
 
   const handleExpandClick = () => {
@@ -154,9 +169,9 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton onClick={handleClickPoper} id='one' aria-label="add to favorites">
+        { false && <IconButton onClick={handleClickPopperReport} id='one' aria-label="add to favorites">
           <FavoriteIcon />
-        </IconButton>
+        </IconButton> }
 
         <Popper style={{ marginBottom: 16, maxWidth: 300 }} id={'noneid'} placement='top' open={open} anchorEl={anchorEl}>
 
@@ -194,7 +209,7 @@ const StoryBox: React.FC<Props> = ({ story, storyDetail = false }) => {
                 <span style={{ color: '#fff' }} >Donate</span>
               </Button>}
 
-              <Button onClick={handleClickPoper} id='two' size='small' variant="contained" color='secondary' >
+              <Button onClick={handleClickPopperReport} id={story.id} size='small' variant="contained" color='secondary' >
                 <span style={{ color: '#fff' }} >Report</span>
               </Button>
 
