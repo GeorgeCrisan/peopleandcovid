@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "pure-react-carousel": "^1.27.4",
     "react": "^16.13.1",
+    "react-cookie-consent": "^6.2.1",
     "react-dom": "^16.13.1",
     "react-google-recaptcha": "^2.1.0",
     "react-intersection-observer": "^8.30.3",
