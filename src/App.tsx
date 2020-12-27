@@ -26,7 +26,7 @@ function App() {
           location="bottom"
           buttonText="Ok"
           cookieName="consent"
-          style={{ background: "#2B373B", fontFamiliy: "'Fira Sans', sans-serif;" }}
+          style={{ background: "#2B373B", fontFamiliy: "'Fira Sans', sans-serif" }}
           buttonStyle={{ cursor: 'pointer', borderRadius: 5, fontFamily: 'Fira Sans, sans-serif', background: "rgba(3, 168, 124, 1)", color: 'white', fontSize: "16px" }}
           expires={150}
         >
