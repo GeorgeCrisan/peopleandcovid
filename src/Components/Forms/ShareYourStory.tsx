@@ -219,7 +219,7 @@ function ShareYourStory() {
         </div>
         <div style={{ padding: 16, paddingBottom: 0, marginTop: 16, display: "flex", justifyContent: 'center' }}>
           <ReCAPTCHA
-            sitekey="6LdmwtgZAAAAAG-MzaAncMJSdyy_msfCeAzj1EUC"
+            sitekey="6LeO8hYaAAAAAIshneEiZ-zTuTBxmoIf4cKB3IPO"
             onChange={onChangeCaptcha}
           />
         </div>
