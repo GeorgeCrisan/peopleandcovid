@@ -103,6 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
+#prevent firebase cache
+.firebase/
+
 # Extras
 /src/firebaseinit.ts
 /build
